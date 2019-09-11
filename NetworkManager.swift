@@ -75,7 +75,7 @@ class NetworkManager {
     ///   - headers: neccesary headers to get api result
     ///   - completionHandler: returns success with decoded JSON or failure with a error when the request is completed.
     
-    func fetchData<T>(_ api: URL, headers: Headers?, completionHandler:@escaping ResponseHandler<T>){
+    func fetchData<T>(_ api: URL, headers: Headers?, completionHandler: @escaping ResponseHandler<T>){
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON {
             result in
             
