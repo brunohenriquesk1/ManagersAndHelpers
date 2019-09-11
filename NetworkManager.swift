@@ -62,6 +62,7 @@ class NetworkManager {
     
     typealias ResponseHandler <T : Decodable> = (_ reponse: NetworkResponse<T>) -> Void
     typealias UploadHandler = (UploadResponse) -> ()
+    typealias Parameters = [String: String]
     typealias Headers = [String: String]
     
     public static var shared = NetworkManager()
@@ -75,8 +76,8 @@ class NetworkManager {
     ///   - headers: neccesary headers to get api result
     ///   - completionHandler: returns success with decoded JSON or failure with a error when the request is completed.
     
-    func fetchData<T>(_ api: URL, headers: Headers?, completionHandler: @escaping ResponseHandler<T>){
-        Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON {
+    func fetchData<T>(_ api: URL, headers: Headers?, parameters: Parameters?, completionHandler: @escaping ResponseHandler<T>){
+        Alamofire.request(api, method: .get, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON {
             result in
             
             guard let data = result.data, result.error == nil else {
@@ -105,7 +106,7 @@ class NetworkManager {
     //    - uploadProgress: download progress in double values
     ///   - completionHandler: success or failure response
     
-    func uploadData(_ api: URL, params: Headers?, file: File, uploadProgress: @escaping UploadHandler, completion: @escaping UploadHandler) {
+    func uploadData(_ api: URL, params: Parameters?, file: File, uploadProgress: @escaping UploadHandler, completion: @escaping UploadHandler) {
         Alamofire.upload(multipartFormData: { (form) in
             guard let name = file.name, let data = file.data else {
                 let error = CustomError(code: .noCode, customDescription: "Invalid file attributes")
