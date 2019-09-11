@@ -109,8 +109,8 @@ class NetworkManager {
         Alamofire.upload(multipartFormData: { (form) in
             guard let name = file.name, let data = file.data else {
                 let error = CustomError(code: .noCode, customDescription: "Invalid file attributes")
-                
-                return completion(.failure(err: error))}
+                return completion(.failure(err: error))
+            }
             
             form.append(data, withName: name, fileName: name, mimeType: file.mimeType.rawValue)
             
